@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VZMP.APP - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .option-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: rgba(0, 30, 30, 0.2);
+            border-radius: 5px;
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        .status-message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgba(0, 30, 30, 0.3);
+            border-left: 3px solid #0ff;
+            display: none;
+        }
+
+        .status-message.success {
+            border-left-color: #0f0;
+        }
+
+        .button.small {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 5px;
+            font-size: 0.9rem;
+            max-width: none;
+        }
+
+        @media (max-width: 768px) {
+            .option-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .option-item .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrix"></canvas>
+    
+    <div class="terminal wide">
+        <div class="terminal-header">
+            <div class="terminal-title">VZMP.APP - DASHBOARD</div>
+            <div class="terminal-controls">
+                <div class="control close"></div>
+                <div class="control minimize"></div>
+                <div class="control maximize"></div>
+            </div>
+        </div>
+        
+        <div class="terminal-content">
+            <h1 class="glitch" data-text="VZMP.APP DASHBOARD">VZMP.APP DASHBOARD<span class="cursor"></span></h1>
+            
+            <div class="info-box">
+                <div class="info-icon">
+                    <i class="fas fa-info-circle"></i>
+                    <span>This Dashboard automatically checks if you use VZMP.APP OS. Everything works automatically and such.</span>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Discord Section - LOCKED -->
+                <div class="dashboard-card locked">
+                    <div class="locked-overlay">
+                        <div class="locked-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="locked-text">VZMP.APP OS not Detected</div>
+                        <div style="color: #f88; font-size: 1rem;">Your access to this is prohibited</div>
+                    </div>
+                    <h3><i class="fab fa-discord"></i> Discord Tools</h3>
+                    <div class="info-box">
+                        <div class="info-icon">
+                            <i class="fas fa-info-circle"></i>
+                            <span>You need the Discord VZMP.APP Client which comes with the OS.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="option-item">
+                        <div class="option-text">Inject Nuke/Raid bots into Discord</div>
+                        <button class="button small" disabled>Inject</button>
+                    </div>
+                    
+                    <div class="option-item">
+                        <div class="option-text">Inject Staff Panel into Discord</div>
+                        <button class="button small" disabled>Inject</button>
+                    </div>
+                    
+                    <div class="option-item">
+                        <div class="option-text">Inject DevTools into Discord</div>
+                        <button class="button small" disabled>Inject</button>
+                    </div>
+                    
+                    <div class="option-item">
+                        <div class="option-text">Inject Custom Discord API into Discord</div>
+                        <button class="button small" disabled>Inject</button>
+                    </div>
+                    
+                    <div class="option-item">
+                        <div class="option-text">Inject VZMP.APP Protection into Discord</div>
+                        <button class="button small" disabled>Inject</button>
+                    </div>
+                </div>
+                
+                <!-- OS Section - LOCKED -->
+                <div class="dashboard-card locked">
+                    <div class="locked-overlay">
+                        <div class="locked-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="locked-text">VZMP.APP OS not Detected</div>
+                        <div style="color: #f88; font-size: 1rem;">Your access to this is prohibited</div>
+                    </div>
+                    <h3><i class="fas fa-desktop"></i> OS Tools</h3>
+                    
+                    <div class="option-item">
+                        <div class="option-text">VZMP.APP Free Storage Upgrade</div>
+                        <button class="button small" disabled>Start</button>
+                    </div>
+                    
+                    <div class="option-item">
+                        <div class="option-text">VZMP.APP Unlimited Mobile Data</div>
+                        <button class="button small" disabled>Inject</button>
+                    </div>
+                </div>
+                
+                <!-- Methods Section - LOCKED -->
+                <div class="dashboard-card locked">
+                    <div class="locked-overlay">
+                        <div class="locked-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="locked-text">VZMP.APP OS not Detected</div>
+                        <div style="color: #f88; font-size: 1rem;">Your access to this is prohibited</div>
+                    </div>
+                    <h3><i class="fas fa-tools"></i> Methods</h3>
+                    
+                    <div class="option-item">
+                        <div class="option-text">Amazon Dupe Method</div>
+                        <button class="button small" disabled>Download</button>
+                    </div>
+                    
+                    <div class="option-item">
+                        <div class="option-text">Amazon Refund Method</div>
+                        <button class="button small" disabled>Download</button>
+                    </div>
+                    
+                    <div class="option-item">
+                        <div class="option-text">McDonalds Method</div>
+                        <button class="button small" disabled>Download</button>
+                    </div>
+                    
+                    <div class="option-item">
+                        <div class="option-text">Burger King Method</div>
+                        <button class="button small" disabled>Download</button>
+                    </div>
+                </div>
+                
+                <!-- VZMP.APP Pages Section -->
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-external-link-alt"></i> VZMP.APP Pages</h3>
+                    
+                    <div class="option-item">
+                        <div class="option-text">VZMP.APP Main Page</div>
+                        <a href="index.html" class="button small">Open</a>
+                    </div>
+                    
+                    <div class="option-item">
+                        <div class="option-text">VZMP.APP About Page</div>
+                        <a href="about.html" class="button small">Open</a>
+                    </div>
+                    
+                    <div class="option-item">
+                        <div class="option-text">VZMP.APP Store Page</div>
+                        <a href="store.html" class="button small">Open</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Info Section -->
+            <h2>About VZMP.APP</h2>
+            <div class="info-box">
+                <div class="info-icon">
+                    <i class="fas fa-star"></i>
+                    <span>VZMP.APP - The Ultimate Device Modification Platform</span>
+                </div>
+                <ul>
+                    <li>Full Device Access and Modification</li>
+                    <li>Works on all operating systems: Windows, Linux, MacOS, iOS, Android</li>
+                    <li>Security everywhere with advanced protection</li>
+                    <li>Any Store Application will be cracked if requested</li>
+                    <li>Serverside plugins for enhanced functionality</li>
+                    <li>Custom VZMP.APP Undetected Executors, ModMenus, Injectors and more!</li>
+                    <li>Discord integration with plugins, themes, nukers, and selfbots</li>
+                    <li>YouTube Premium cracked and content farming tools</li>
+                    <li>Game modifications for Minecraft, Roblox, GTA V, and many more</li>
+                </ul>
+            </div>
+            
+            <div class="footer">
+                <div class="footer-item">©VZMP.APP</div>
+                <div class="footer-item">©VZMP.EXE</div>
+                <div class="footer-item">©VZMP.IPA</div>
+                <div class="footer-item">©VZMP.APK</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
