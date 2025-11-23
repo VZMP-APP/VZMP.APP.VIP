@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VZMP.APP Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-label {
+            flex: 1;
+        }
+
+        .info-text {
+            font-size: 0.8rem;
+            color: #0aa;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .info-text i {
+            color: #0ff;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .radio-custom {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #0ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .radio-custom.selected:after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            background-color: #0ff;
+            border-radius: 50%;
+        }
+
+        .radio-label {
+            flex: 1;
+        }
+
+        .radio-price {
+            font-weight: bold;
+            color: #0ff;
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-terminal {
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid #0ff;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            background-color: rgba(10, 10, 10, 0.95);
+            overflow: hidden;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .popup-overlay.active .popup-terminal {
+            transform: scale(1);
+        }
+
+        .popup-header {
+            background-color: #0a0a0a;
+            padding: 10px 15px;
+            border-bottom: 1px solid #0ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px #0ff;
+        }
+
+        .popup-content {
+            padding: 20px;
+        }
+
+        .warning-box {
+            background-color: rgba(50, 0, 0, 0.3);
+            border: 1px solid #f00;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .warning-icon {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #f00;
+        }
+
+        .warning-icon i {
+            font-size: 1.5rem;
+        }
+
+        .early-access-box {
+            background-color: rgba(0, 30, 30, 0.3);
+            border: 1px solid #0ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .early-access-icon {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .access-count {
+            display: inline-block;
+            background-color: #0ff;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .popup-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #0a0a0a;
+            color: #0ff;
+            border: 2px solid #0ff;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .popup-button:hover {
+            background-color: #0ff;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrix"></canvas>
+    
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-terminal">
+            <div class="popup-header">
+                <div class="popup-title">VZMP.APP - SYSTEM NOTICE</div>
+                <div class="terminal-controls">
+                    <div class="control close" id="popupClose"></div>
+                </div>
+            </div>
+            <div class="popup-content">
+                <div class="warning-box">
+                    <div class="warning-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Warning</span>
+                    </div>
+                    <ul>
+                        <li>VZMP.APP is currently private and under development.</li>
+                    </ul>
+                </div>
+                
+                <div class="early-access-box">
+                    <div class="early-access-icon">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Early Access is already full</span>
+                        <span class="access-count">25/25</span>
+                    </div>
+                </div>
+                
+                <button class="popup-button" id="understoodButton">Understood</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-title">VZMP.APP STORE - TERMINAL</div>
+            <div class="terminal-controls">
+                <div class="control close"></div>
+                <div class="control minimize"></div>
+                <div class="control maximize"></div>
+            </div>
+        </div>
+        
+        <div class="terminal-content">
+            <h1 class="glitch" data-text="VZMP.APP Store">VZMP.APP Store<span class="cursor"></span></h1>
+            
+            <div class="info-box">
+                <div class="info-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>VZMP.APP Store</span>
+                </div>
+                <ul>
+                    <li>Welcome to the Store!</li>
+                    <li>Select what you want in your OS!</li>
+                    <li>Price Varies from 15,99€ - 49,99€ Lifetime.</li>
+                </ul>
+            </div>
+            
+            <div class="selection-box">
+                <div class="box-title">Select your OS</div>
+                <div class="info-text">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Multiple OS Selection allowed</span>
+                </div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <div class="checkbox-custom" data-id="windows"></div>
+                        <div class="checkbox-label">Windows</div>
+                    </div>
+                    <div class="checkbox-item">
+                        <div class="checkbox-custom" data-id="linux"></div>
+                        <div class="checkbox-label">Linux</div>
+                    </div>
+                    <div class="checkbox-item">
+                        <div class="checkbox-custom" data-id="macos"></div>
+                        <div class="checkbox-label">MacOS</div>
+                    </div>
+                    <div class="checkbox-item">
+                        <div class="checkbox-custom" data-id="ios"></div>
+                        <div class="checkbox-label">iOS</div>
+                    </div>
+                    <div class="checkbox-item">
+                        <div class="checkbox-custom" data-id="android"></div>
+                        <div class="checkbox-label">Android</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="selection-box">
+                <div class="box-title">Select your VZMP.APP Service</div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <div class="checkbox-custom" data-id="cracked-store"></div>
+                        <div class="checkbox-label">Cracked Store (For every OS)</div>
+                    </div>
+                    <div class="checkbox-item">
+                        <div class="checkbox-custom" data-id="modmenus"></div>
+                        <div class="checkbox-label">Unlock all ModMenus</div>
+                    </div>
+                    <div class="checkbox-item">
+                        <div class="checkbox-custom" data-id="auto-patch"></div>
+                        <div class="checkbox-label">Auto Patch apps</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="selection-box">
+                <div class="box-title">Select your OS Modifications</div>
+                <div class="info-text">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Android and iOS only currently</span>
+                </div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <div class="checkbox-custom" data-id="root"></div>
+                        <div class="checkbox-label">Root (Android)</div>
+                    </div>
+                    <div class="checkbox-item">
+                        <div class="checkbox-custom" data-id="jailbreak"></div>
+                        <div class="checkbox-label">Jailbreak (iOS)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="selection-box">
+                <div class="box-title">Select your Client</div>
+                <div class="info-text">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Only one can be selected</span>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-item" data-plan="standard" data-price="15.99">
+                        <div class="radio-custom"></div>
+                        <div class="radio-label">
+                            <strong>VZMP.APP Standard</strong>
+                            <div class="info-text">Standard does not feature full customization nor Cracked Store feature.</div>
+                        </div>
+                        <div class="radio-price">15,99€</div>
+                    </div>
+                    <div class="radio-item" data-plan="pro" data-price="24.99">
+                        <div class="radio-custom"></div>
+                        <div class="radio-label">
+                            <strong>VZMP.APP Pro</strong>
+                            <div class="info-text">Pro features full customization. No Cracked Store included.</div>
+                        </div>
+                        <div class="radio-price">24,99€</div>
+                    </div>
+                    <div class="radio-item" data-plan="premium" data-price="34.99">
+                        <div class="radio-custom"></div>
+                        <div class="radio-label">
+                            <strong>VZMP.APP Premium</strong>
+                            <div class="info-text">Premium features full customization, Cracked Store.</div>
+                        </div>
+                        <div class="radio-price">34,99€</div>
+                    </div>
+                    <div class="radio-item" data-plan="ultra" data-price="49.99">
+                        <div class="radio-custom"></div>
+                        <div class="radio-label">
+                            <strong>VZMP.APP Ultra</strong>
+                            <div class="info-text">Ultra features Premium features, Customer Service, Live Customization requests and more!</div>
+                        </div>
+                        <div class="radio-price">49,99€</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="price-display" id="priceDisplay">
+                Total: 0,00€
+            </div>
+            
+            <button class="button locked" id="buyButton">
+                <i class="fas fa-lock" style="margin-right: 10px;"></i>Select a Plan
+            </button>
+            
+            <a href="index.html" class="button">Back to Mainpage</a>
+            
+            <div class="footer">
+                <div class="footer-item">©VZMP.APP</div>
+                <div class="footer-item">©VZMP.EXE</div>
+                <div class="footer-item">©VZMP.IPA</div>
+                <div class="footer-item">©VZMP.APK</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.checkbox-custom');
+            const radioItems = document.querySelectorAll('.radio-item');
+            const priceDisplay = document.getElementById('priceDisplay');
+            const buyButton = document.getElementById('buyButton');
+            const popupOverlay = document.getElementById('popupOverlay');
+            const popupClose = document.getElementById('popupClose');
+            const understoodButton = document.getElementById('understoodButton');
+            
+            let selectedPlan = null;
+            let selectedPlanPrice = 0;
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('click', function() {
+                    this.classList.toggle('checked');
+                    updatePrice();
+                });
+            });
+            
+            radioItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    radioItems.forEach(radio => {
+                        radio.classList.remove('selected');
+                        radio.querySelector('.radio-custom').classList.remove('selected');
+                    });
+                    
+                    this.classList.add('selected');
+                    this.querySelector('.radio-custom').classList.add('selected');
+                    
+                    selectedPlan = this.getAttribute('data-plan');
+                    selectedPlanPrice = parseFloat(this.getAttribute('data-price'));
+                    
+                    buyButton.innerHTML = `<i class="fas fa-lock" style="margin-right: 10px;"></i>Buy ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan`;
+                    
+                    updatePrice();
+                });
+            });
+            
+            function updatePrice() {
+                let totalPrice = selectedPlanPrice;
+                
+                const formattedPrice = totalPrice.toFixed(2).replace('.', ',');
+                priceDisplay.textContent = `Total: ${formattedPrice}€`;
+            }
+            
+            buyButton.addEventListener('click', function() {
+                popupOverlay.classList.add('active');
+            });
+            
+            popupClose.addEventListener('click', function() {
+                popupOverlay.classList.remove('active');
+            });
+            
+            understoodButton.addEventListener('click', function() {
+                popupOverlay.classList.remove('active');
+            });
+            
+            popupOverlay.addEventListener('click', function(e) {
+                if (e.target === popupOverlay) {
+                    popupOverlay.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+  </html>
