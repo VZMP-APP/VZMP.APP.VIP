@@ -178,7 +178,7 @@
 <body>
     <canvas class="matrix-bg" id="matrix"></canvas>
     
-    <a href="index.html" class="terminal-float-button" title="Back to Main Terminal">
+    <a href="index" class="terminal-float-button" title="Back to Main Terminal">
         <i class="fas fa-arrow-left"></i>
     </a>
     
